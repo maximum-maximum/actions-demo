@@ -42,4 +42,6 @@ jobs:
       - name: Create json
         run: |
           echo {"family":$TEST_TEXT,"requiresCompatibilities":["FARGATE"],"executionRoleArn":"ecsTaskExecutionRole","networkMode":"awsvpc","cpu":"256","memory":"512","containerDefinitions":[{"name":$TEST_TEXT,"image":"$IMAGE","portMappings":[{"containerPort":80,"hostPort":80,"protocol":"tcp"}],"essential":true}]} > test.json
+           echo \{\"token\":\{\"access_token\":\"${{ secrets.ACCESS_TOKEN}}\",\"scope\":\"https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/script.projects https://www.googleapis.com/auth/script.webapp.deploy https://www.googleapis.com/auth/logging.read openid https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/script.deployments https://www.googleapis.com/auth/service.management https://www.googleapis.com/auth/cloud-platform\",\"token_type\":\"Bearer\",\"id_token\":\"${{ secrets.ID_TOKEN }}\",\"expiry_date\":1620870307822,\"refresh_token\":\"${{ secrets.REFRESH_TOKEN }}\"\},\"oauth2ClientSettings\":\{\"clientId\":\"${{ secrets.CLIENTID }}\",\"clientSecret\":\"${{ secrets.CLIENTSECRET }}\",\"redirectUri\":\"http://localhost\"\},\"isLocalCreds\":false\} > hoge.json
           cat test.json
+          cat hoge.json
