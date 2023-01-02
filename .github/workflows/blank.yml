@@ -6,12 +6,15 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  TEST_TEXT: ${{ secrets.TEST_TEXT }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -31,6 +34,14 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
+        env:
+          TEST_TEXT: ${{ env.TEST_TEXT }}
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+          echo $TEST_TEXT
+
+      - name: Create json
+        run: |
+          echo '{"family":$TEST_TEXT,"requiresCompatibilities":["FARGATE"],"executionRoleArn":"ecsTaskExecutionRole","networkMode":"awsvpc","cpu":"256","memory":"512","containerDefinitions":[{"name":$TEST_TEXT,"image":"$IMAGE","portMappings":[{"containerPort":80,"hostPort":80,"protocol":"tcp"}],"essential":true}]}' > test.json
+          cat test.json
