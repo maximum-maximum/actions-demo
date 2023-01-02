@@ -36,8 +36,6 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           echo $TEST_TEXT
-          echo ${{ env.TEST_TEXT }}
-          echo ${{ secrets.TEST_TEXT }}
 
       - name: Create json
         run: |
